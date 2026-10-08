@@ -1,29 +1,25 @@
 # Docker Blue-Green Deployment
 
-## Architecture
-
-GitHub → Docker Hub → Kubernetes → Blue/Green → Service
+Blue-Green deployment using Docker, Docker Hub and Kubernetes on a kOps cluster.
 
 ## Docker Images
 
-- `vardhan027/docker-version-demo:v1`
-- `vardhan027/docker-version-demo:v2`
+- vardhan027/docker-version-demo:v1
+- vardhan027/docker-version-demo:v2
 
-## Blue Environment
+## Kubernetes
 
-V1 runs with 3 replicas.
+Blue:
+- Version: v1
+- Replicas: 3
+  
+Green:
+- Version: v2
+- Replicas: 3
 
-![Blue deployment](screenshots/04-blue-green-deployments.png)
+## Traffic Switching
 
-## Green Environment
-
-V2 runs with 3 replicas.
-
-![Blue Green Pods](screenshots/05-blue-green-pods.png)
-
-## Traffic Switch
-
-Production traffic was switched from Blue V1 to Green V2 using:
+Production traffic was switched from Blue to Green using:
 
 ```bash
 kubectl patch service docker-demo-service -p '{"spec":{"selector":{"app":"docker-demo","version":"green"}}}'
